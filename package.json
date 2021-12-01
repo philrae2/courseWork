@@ -1,0 +1,23 @@
+{
+  "name": "courseWork",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philrae2/courseWork.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philrae2/courseWork/issues"
+  },
+  "homepage": "https://github.com/philrae2/courseWork#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
