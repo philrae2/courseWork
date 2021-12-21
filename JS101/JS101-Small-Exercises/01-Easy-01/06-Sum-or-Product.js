@@ -1,5 +1,3 @@
-
-
 /*Sum or Product of Consecutive Integers
 Write a program that asks the user to enter an integer greater than 0, then asks whether the user wants to determine the sum or the product of all numbers between 1 and the entered integer, inclusive.
 
@@ -26,26 +24,26 @@ do {
 } while (isNaN(number));
   
 
-
 do {
   multiplyOrAdd = rlsync.question("Enter \"s\" to compute the sum, or \"p\" to compute the product.");
-} while ((multiplyOrAdd.tolowercase() !== "s") || (multiplyOrAdd.tolowercase() !=="p"));
- 
- 
+  console.log(multiplyOrAdd);
+} while (multiplyOrAdd.tolowercase !== "s" || multiplyOrAdd.tolowercase !== "p");
 
 
-if (multiplyOrAdd === "s") {
-product_or_sum = 0;
-for (let counter = 1; counter <= number; counter++) {
-  product_or_sum += counter;
-}
-console.log(`The sum of the integers between 1 and ${number} is ${product_or_sum}.`)
-} else if (multiplyOrAdd === "p") {
-product_or_sum = 1;
-for (let counter = 1; counter <= number; counter++) {
-  product_or_sum *= counter;
-}
-console.log(`The product of the integers between 1 and ${number} is ${product_or_sum}.`)
-} else {
-console.log("Please enter s or p");
-}
+  if (multiplyOrAdd === "s") {
+    product_or_sum = 0;
+    for (let counter = 1; counter <= number; counter++) {
+      product_or_sum += counter;
+    }
+    console.log(`The sum of the integers between 1 and ${number} is ${product_or_sum}.`)
+  } else if (multiplyOrAdd === "p") {
+    product_or_sum = 1;
+    for (let counter = 1; counter <= number; counter++) {
+      product_or_sum *= counter;
+    }
+    console.log(`The product of the integers between 1 and ${number} is ${product_or_sum}.`)
+  } else {
+    console.log("Please enter s or p");
+  }
+
+
