@@ -23,27 +23,28 @@ do {
  number = parseInt(rlsync.question("Please enter a number?\n"), 10);
 } while (isNaN(number));
   
+let multiplyOrAdd;
+let move;
 
 do {
   multiplyOrAdd = rlsync.question("Enter \"s\" to compute the sum, or \"p\" to compute the product.");
-  console.log(multiplyOrAdd);
-} while (multiplyOrAdd.tolowercase !== "s" || multiplyOrAdd.tolowercase !== "p");
+} while (multiplyOrAdd.toLowerCase() !=="s" &&  multiplyOrAdd.toLowerCase()!=="p")
+ 
 
 
-  if (multiplyOrAdd === "s") {
-    product_or_sum = 0;
-    for (let counter = 1; counter <= number; counter++) {
-      product_or_sum += counter;
-    }
-    console.log(`The sum of the integers between 1 and ${number} is ${product_or_sum}.`)
-  } else if (multiplyOrAdd === "p") {
-    product_or_sum = 1;
-    for (let counter = 1; counter <= number; counter++) {
-      product_or_sum *= counter;
-    }
-    console.log(`The product of the integers between 1 and ${number} is ${product_or_sum}.`)
-  } else {
-    console.log("Please enter s or p");
-  }
 
-
+if (multiplyOrAdd === "s") {
+product_or_sum = 0;
+for (let counter = 1; counter <= number; counter++) {
+  product_or_sum += counter;
+}
+console.log(`The sum of the integers between 1 and ${number} is ${product_or_sum}.`)
+} else if (multiplyOrAdd === "p") {
+product_or_sum = 1;
+for (let counter = 1; counter <= number; counter++) {
+  product_or_sum *= counter;
+}
+console.log(`The product of the integers between 1 and ${number} is ${product_or_sum}.`)
+} else {
+console.log("Please enter s or p");
+}
