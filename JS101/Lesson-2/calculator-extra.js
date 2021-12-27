@@ -16,31 +16,34 @@ function prompt (key) {
 
 prompt("Welcome to Calculator!");
 
-prompt("language");
-let languageResponse = readline.question();
-if (languageResponse.toLowerCase() === "english") {
-  language = "en";
-} else {
-  language = "es";
-}
+let languageResponse = "";
+
+do {
+  prompt("language");
+  languageResponse = readline.question();
+
+  if (languageResponse.toLowerCase() === "english") {
+    language = "en";
+  } else if (languageResponse.toLowerCase() === "spanish") {
+    language = "es";
+  } else {
+    console.log ("Please enter English or Spanish");
+    languageResponse = readline.question();
+  }
+} while (!(languageResponse.toLowerCase().includes("en")) && !(languageResponse.toLowerCase().includes("nish")));
 
 do {
 
-  prompt(firstNum);
+  prompt("firstNum");
   let number1 = readline.question();
 
-  prompt(number1);
-
-  prompt(secondNum);
+  prompt("secondNum");
   let number2 = readline.question();
 
-  prompt(number2);
-
-  prompt(operation);
+  prompt("operation");
   let operator = readline.question();
 
   let output;
-  
 
   if (operator === "1") {
     output = Number(number1) + Number(number2);
@@ -51,9 +54,10 @@ do {
   } else if (operator === "4") {
     output = Number(number1) / Number(number2);
   }
-  prompt(`${result} ${output}.`);
 
-  prompt(retry);
+  prompt("result");
+  console.log(output);
+  prompt("retry");
   retry = readline.question();
 
 } while (retry.toLowerCase().includes("y"));
