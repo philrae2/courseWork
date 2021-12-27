@@ -8,6 +8,8 @@ const readline = require("readline-sync");
 
 console.log("Welcome to Calculator!");
 
+
+
 console.log("Whats the first number");
 let number1 = readline.question();
 
