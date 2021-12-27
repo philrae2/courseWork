@@ -28,25 +28,17 @@ function convertChar (character) {
   }
 }
 
-// eslint-disable-next-line max-statements
 function stringToInteger (string) {
-  let num = 0;
   let sum = 0;
   let numbersArray = string.split("");
-  let counter = 1;
 
-  for (let index = numbersArray.length; index > 0; index -= 1) {
-    num = convertChar(numbersArray[index - 1]);
-    if (counter > 1 ) {
-      for (let multiply = counter - 1; multiply > 0; multiply--) {
-        num *= 10;
-      }
-    }
-    sum += num;
-    counter++;
+  for (let index = 0; index < numbersArray.length; index += 1) {
+    num = convertChar(numbersArray[index]) + sum * 10;
   }
+  console.log(sum);
   return sum;
 }
+
 
 console.log(stringToInteger("4321") === 4321); // logs true
 console.log(stringToInteger("570") === 570); // logs true
