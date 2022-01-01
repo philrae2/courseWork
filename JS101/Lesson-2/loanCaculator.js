@@ -87,7 +87,7 @@ while (true) {
   // eslint-disable-next-line max-len
   const monthlyPayments = calculateMonthlyPayment (loanAmount, loanDurationMonths, annualPercentageRate);
 
-  prompt(`Your monthly payments are: ${monthlyPayments} for a total of ${loanDurationMonths} months.`);
+  prompt(`Your monthly payments are: ${monthlyPayments.toFixed(2)} for a total of ${loanDurationMonths} months.`);
 
   prompt("-----------------------------------------------------------------------");
   const response = getRepeatResponse();

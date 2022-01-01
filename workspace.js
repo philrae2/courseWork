@@ -1,4 +1,32 @@
-// Displays 'zilla' the last 5 characters
-let anyString = 'Mozilla'
-let anyString5 = anyString.substring(anyString.length - 5);
-console.log(anyString5)
+const readline = require('readline-sync');
+
+const CHOICES = {
+  rock: {
+    abbrev: 'r',
+    beats: ['scissors', 'lizard']
+  },
+  paper: {
+    abbrev: 'p',
+    beats: ['rock', 'spock']
+  },
+  scissors: {
+    abbrev: 'sc',
+    beats: ['paper', 'lizard']
+  },
+  lizard: {
+    abbrev: 'l',
+    beats: ['paper', 'spock']
+  },
+  spock: {
+    abbrev: 'sp',
+    beats: ['rock', 'scissors']
+  }
+};
+
+const choicesFull = Object.keys(CHOICES);
+const choicesAbbrev = Object.values(CHOICES).map(choice => choice.abbrev);
+const choicesArr = Object.entries(CHOICES).map(([choice, value]) => {
+  return [choice, value.abbrev];
+});
+console.log(choicesArr);
+
