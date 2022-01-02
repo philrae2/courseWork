@@ -3,37 +3,44 @@ const readline = require("readline-sync");
 const VALID_CHOICES_MAP = {
   rock: {
     abbrev: "r",
-    win: ["p", "r"]
+    win: ["lizard", "scissors"]
   },
   paper: {
     abbrev: "p",
-    win: ["r", "sp"]
+    win: ["rock", "spock"]
   },
   scissors: {
     abbrev: "sc",
-    win: ["p", "l"]
+    win: ["paper", "lizard"]
   },
   lizard: {
-    abbrev: "l",
-    win: ["p", "sp"]
+    abbrev: "lizard",
+    win: ["paper", "spock"]
   },
   spock: {
     abbrev: "sp",
-    win: ["r", "sc"]
+    win: ["rock", "scissor"]
   }
 };
 
 const choicesFull = Object.keys(VALID_CHOICES_MAP);
-console.log(choicesFull);
 const choicesShort = Object.values(VALID_CHOICES_MAP).map(choice => choice.abbrev);
-console.log(choicesShort);
 const choicesArray = Object.entries(VALID_CHOICES_MAP).map(([choice, value]) => {
   return [choice, value.abbrev];
 });
 
+function changeChoiceTofull (choice) {
+  let index = choicesArray.findIndex(([_, abbrev]) => choice === abbrev);
+  return choicesArray[index][0];
+}
+
 function displayRoundWinner (userChoice, computerChoice) {
   if (VALID_CHOICES_MAP[userChoice].win.includes(computerChoice)) {
-    prompt(`You won! You chose ${userChoice}`)
+    prompt(`You won! You chose ${userChoice} and the computer chose ${computerChoice}`);
+  } else if (VALID_CHOICES_MAP[computerChoice].win.includes(userChoice)) {
+    prompt(`The computer won. You chose ${userChoice} and the computer chose ${computerChoice}`);
+  } else {
+    prompt(`It's a tie! You chose ${userChoice} and the computer chose ${computerChoice}`);
   }
 }
 
@@ -41,7 +48,7 @@ function getChoicesStr () {
   let choicesStr = "Enter: ";
 
   choicesArray.forEach(([choice, abbrev]) => {
-    choicesStr += `${choice} for ${abbrev}, `;
+    choicesStr += `${abbrev} for ${choice}, `;
   });
   return choicesStr.slice(0, -2);
 }
@@ -49,6 +56,7 @@ function getChoicesStr () {
 function getComputerChoice () {
   let randomIndex = Math.floor(Math.random() * choicesShort.length);
   let computerChoice = choicesShort[randomIndex];
+  computerChoice = changeChoiceTofull(computerChoice);
   return computerChoice;
 }
 
@@ -63,10 +71,10 @@ function getUserChoice () {
     choice = readline.question();
   }
 
-  if (choicesFull.includes(choice)) {
-    choice = VALID_CHOICES_MAP[choice].abbrev;
+  if (choicesArray.some(([_, abbrev]) => choice === abbrev)) {
+    choice = changeChoiceTofull(choice);
   }
-
+  return choice;
 }
 
 function prompt(message) {
@@ -75,7 +83,6 @@ function prompt(message) {
 
 const userChoice = getUserChoice();
 const computerChoice = getComputerChoice();
-console.log(computerChoice);
 displayRoundWinner(userChoice, computerChoice);
 
 /*
