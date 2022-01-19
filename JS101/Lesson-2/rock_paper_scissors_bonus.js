@@ -76,7 +76,7 @@ function getUserChoice () {
   let choice = readline.question().toLowerCase();
 
   while (!choicesShort.includes(choice) && !choicesFull.includes(choice)) {
-    console.log("Please enter a valid choice");
+    console.log("Please enter a valid choice");''
     choice = readline.question().toLowerCase();
   }
 
