@@ -9,7 +9,8 @@ OUTPUT
 - An array of only objects with subarrays of only even numbers
 
 LOGIC
-- Iterate through each object in the array and return only objects with  the even containing arrays
+- Iterate through each object in the array and
+ return only objects with  the even containing arrays
 - check if the numbers in the subarray are all even
 
 */

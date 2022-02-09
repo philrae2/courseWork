@@ -22,8 +22,8 @@ function findDup (array) {
   let dup = "";
   array.forEach ((num) => {
 
-  let dupes = array.filter((element) => num === element);
-  
+    let dupes = array.filter((element) => num === element);
+
     if (dupes.length > 1 && !dup.includes(num)) {
       dup += num;
     }
