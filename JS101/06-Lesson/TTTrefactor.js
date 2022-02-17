@@ -1,13 +1,13 @@
 /* eslint-disable max-lines-per-function */
 const readline = require("readline-sync");
 const INITIAL_MARKER = " ";
-const HUMAN_MARKER = "X";
-const COMPUTER_MARKER = "O";
+const PLAYER1_MARKER = "X";
+const PLAYER2_MARKER = "O";
 const WINNING_SCORE = 5;
 
 function displayBoard (board) {
 
-  console.log(`You are ${HUMAN_MARKER}. The computer is ${COMPUTER_MARKER}`);
+  console.log(`You are ${PLAYER1_MARKER}. The computer is ${PLAYER2_MARKER}`);
 
   console.log("");
   console.log("     |     |");
@@ -52,23 +52,45 @@ function boardFull(board) {
   return emptySquares(board).length === 0;
 }
 
+// eslint-disable-next-line max-statements
 function computerChoosesSquare (board) {
 
-  let smartSpace = smartMoves(board, HUMAN_MARKER);
-  console.log(`Smartspace = ${smartSpace}`);
-  console.log(typeof smartSpace);
-  console.log("The computer chooses a square");
+  let defense = smartMoves(board, PLAYER1_MARKER);
+  console.log (`defense = ${defense}`);
+  console.log(typeof defense);
   readline.question();
 
-  if (smartSpace !== null && smartSpace !== " ") {
-    board[smartSpace] = COMPUTER_MARKER;
+  let offense = smartMoves(board, PLAYER2_MARKER);
+  console.log(`offense = ${offense}`);
+  readline.question();
+
+  if (typeof offense === "number" && typeof defense === "number") {
+    console.log("offense move");
+    console.log(typeof offense);
+    readline.question();
+    board[offense] = PLAYER2_MARKER;
+
+  } else if (typeof offense !== "number" && typeof defense === "number") {
+    console.log("defense move");
+    board[defense] = PLAYER2_MARKER;
+
+  } else if (typeof offense === "number" && typeof defense !== "number") {
+    board[offense] = PLAYER2_MARKER;
+
+  } else if (board[5] === " ") {
+    board[5] = PLAYER2_MARKER;
+
   } else {
+    console.log("no smart moves");
+    readline.question();
+
     let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
     let square = emptySquares(board)[randomIndex];
-    board[square] = COMPUTER_MARKER;
+    board[square] = PLAYER2_MARKER;
   }
 }
 
+// eslint-disable-next-line max-statements
 function smartMoves (board, marker) {
   let winningLines = [
     [1,2,3], [4,5,6], [7,8,9],
@@ -86,11 +108,12 @@ function smartMoves (board, marker) {
     readline.question();
 
     if (checkFilledSpaces.length === 2) {
-      console.log("The computer found a threat");
+      console.log("The computer found a smartspace");
       let smartSpace = [sq1, sq2, sq3].find(space => board[space] === " ");
-      console.log(`smartspace = ${smartSpace}`);
-      readline.question();
-      if ([1,2,3,4,5,6,7,9].includes(smartSpace)) {
+
+      if (smartSpace !== undefined) {
+        console.log("returning smartspace");
+        readline.question();
         return smartSpace;
       }
     }
@@ -110,16 +133,16 @@ function detectWinner(board) {
     let [sq1, sq2, sq3] = winningLines[line];
 
     if (
-      board[sq1] === HUMAN_MARKER &&
-      board[sq2] === HUMAN_MARKER &&
-      board[sq3] === HUMAN_MARKER
+      board[sq1] === PLAYER1_MARKER &&
+      board[sq2] === PLAYER1_MARKER &&
+      board[sq3] === PLAYER1_MARKER
     ) {
       return "Player";
 
     } else if (
-      board[sq1] === COMPUTER_MARKER &&
-      board[sq2] === COMPUTER_MARKER &&
-      board[sq3] === COMPUTER_MARKER
+      board[sq1] === PLAYER2_MARKER &&
+      board[sq2] === PLAYER2_MARKER &&
+      board[sq3] === PLAYER2_MARKER
     ) {
 
       return "Computer";
@@ -152,7 +175,7 @@ function playerChoosesSquare (board) {
     prompt("That's not a valid choice");
   }
 
-  board[square] = HUMAN_MARKER;
+  board[square] = PLAYER1_MARKER;
 }
 
 function joinOr (array, delimiter = ", ", joinWord = "or") {
@@ -190,22 +213,58 @@ function newRoundMessage(board) {
   readline.question();
 
 }
+
+function whoGoesFirst() {
+  prompt("Would you like to start first? Please enter Yes or No.");
+  return readline.question().toLowerCase();
+}
+
+function chooseSquare (board, currentPlayer) {
+  if (currentPlayer === "human") {
+    playerChoosesSquare(board);
+  } else {
+    computerChoosesSquare(board);
+  }
+}
+function switchPlayers (currentPlayer) {
+  return currentPlayer === "human" ? "computer" : "human";
+}
+
+function welcomeMsg () {
+  prompt ("Welcome to Tic Tac Toe! \n Let's play a game. \n Press any key to continue.");
+  readline.question();
+}
+
 while (true) { //Match Loop
 
   let scores = initializeScore();
+  let firstPlayer;
+  welcomeMsg();
 
-  while (scores.Player < 5 && scores.Computer < 5) {
+  while (true) {
+    firstPlayer = whoGoesFirst();
+    if (firstPlayer[0].toLowerCase() === 'y' || firstPlayer[0].toLowerCase() === 'n') break;
+    prompt ("Please enter a valid response.");
+  }
+
+  while (scores.Player < WINNING_SCORE && scores.Computer < WINNING_SCORE) {
     let board = initializeBoard();
+
+    if (firstPlayer[0].includes("y")) {
+      firstPlayer = "human";
+    } else {
+      firstPlayer = "computer";
+    }
 
     while (true) { // Game Loop
       displayScore(scores);
       displayBoard(board);
 
-      playerChoosesSquare(board);
+      chooseSquare(board, firstPlayer);
       if (ifSomeoneWon(board) || boardFull(board)) break;
 
-      computerChoosesSquare(board);
-      if (ifSomeoneWon(board) || boardFull(board)) break;
+      firstPlayer = switchPlayers(firstPlayer);
+
     }
     displayScore(scores);
     displayBoard(board);
@@ -221,9 +280,15 @@ while (true) { //Match Loop
 
   }
 
-  prompt("Do you want to play again?");
-  let answer = readline.question().toLowerCase([0]);
-  if (answer !== 'y') break;
+  while (true) {
+    prompt("Do you want to play again? Please enter Yes or No");
+    let answer = readline.question().toLowerCase([0]);
+    if (answer[0] !== 'y' || answer(0) !== 'n') break;
+    prompt ("Please enter a valid response.");
+  }
+
+  prompt("Thanks for playing Tic Tac Toe"); 
+  break;
+
 }
 
-prompt ("Thanks for playing Tic Tac Toe");
